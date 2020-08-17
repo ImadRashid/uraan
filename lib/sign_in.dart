@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uraan_app/admin.dart';
+import 'package:uraan_app/sidebar.dart';
 import 'package:uraan_app/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -49,13 +50,15 @@ class _State extends State<LoginPage> {
     } 
     else {
       print("Login Succesful");
-      print(response.body);
+      // print(response.body);
       print(datauser);
+      String name= datauser[0]['name'];
+      // print(name);
       if (datauser[0]['role'] == 'admin') {
-        Navigator.push(context, MaterialPageRoute(builder: (contex)=> AdminScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (contex)=> AdminScreen(name:name)));
       } 
-      else if (datauser[0]['role'] == 'member') {
-        Navigator.push(context, MaterialPageRoute(builder: (contex)=> MemberScreen()));
+      else {
+        Navigator.push(context, MaterialPageRoute(builder: (contex)=> SideBar()));
       }
 
       setState(() {
