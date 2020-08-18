@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class MemberScreen extends StatelessWidget {
+// class MemberScreen extends StatelessWidget {
 
-  const MemberScreen({Key key}) : super(key: key);
+//   const MemberScreen({Key key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text("Welcome dear member"),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: Text("Welcome dear member"),
+//     );
+//   }
+// }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class AdminSidebar extends StatefulWidget {
+class AdminScreen extends StatefulWidget {
   @override
-  _AdminSidebarState createState() => _AdminSidebarState();
+  _AdminScreenState createState() => _AdminScreenState();
 }
 
-class _AdminSidebarState extends State<AdminSidebar> {
+class _AdminScreenState extends State<AdminScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,10 +33,98 @@ class _AdminSidebarState extends State<AdminSidebar> {
               );
             }).toList(),
           ),
+
           floatingActionButton: new FloatingActionButton(
             backgroundColor: Colors.green,
             onPressed: () {
-              // Switch tabs
+
+
+
+
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(20.0)), //this right here
+                      child: Container(
+                        height:350,
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  'write a post',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              TextField(
+                                decoration: InputDecoration(hintText: 'Name',
+
+                                  border: new OutlineInputBorder(
+                                      borderSide:
+                                      new BorderSide(color: Colors.teal)),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+
+                                ),
+                              ),
+                              TextField(
+                                decoration: InputDecoration(
+                                    border: new OutlineInputBorder(
+                                        borderSide:
+                                        new BorderSide(color: Colors.teal)),
+
+                                    focusedBorder: OutlineInputBorder(
+
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
+                                    hintText: 'Title'),
+                              ),
+                              Container(
+
+                                  child: TextField(
+                                    maxLines: 4,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                      hintText: 'Discription',
+                                      filled: true,
+                                      //fillColor: Color(0xFFDBEDFF),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.grey),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.grey),
+                                      ),
+                                    ),
+                                  ),
+
+                              ),
+                              SizedBox(
+                                width: 320.0,
+                                child: RaisedButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "post",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    color: Colors.green),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+
+                  });
             },
             child: new Icon(
               Icons.add,

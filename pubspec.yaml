@@ -27,6 +27,7 @@ dependencies:
   http: ^0.12.1
   #connectivity: ">=0.4.y+x <2.0.0"
   connectivity: ^0.4.9
+  characters: ^1.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

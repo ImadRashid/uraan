@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'member.dart';
+import 'package:characters/characters.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,26 +15,24 @@ class LoginPage extends StatefulWidget {
 
 class _State extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController(); 
+  TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
 
   static const uraanColor = 0xff7ABA7B;
   String msg = '';
   String username = '';
 
   Future<List> _login() async {
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
 
-  String name = nameController.text;
-  String email = emailController.text;
-  String password = passwordController.text;
-
-  // SERVER API URL
-  var url = 'https://www.imadrashid.codes/uraan/login_final.php';
-  //Data
-  var data = {'email': email, 'password' : password};
-  // Starting Web API Call.
-  var response = await http.post(url, body: json.encode(data));
+    // SERVER API URL
+    var url = 'https://www.imadrashid.codes/uraan/login_final.php';
+    //Data
+    var data = {'email': email, 'password': password};
+    // Starting Web API Call.
+    var response = await http.post(url, body: json.encode(data));
 
     // final response =
     //     await http.post("https://www.imadrashid.codes/uraan/login.php", body: {
@@ -47,25 +46,24 @@ class _State extends State<LoginPage> {
       setState(() {
         msg = "Login Fail";
       });
-    } 
-    else {
+    } else {
       print("Login Succesful");
       // print(response.body);
       print(datauser);
       //saving user name
-      String name= datauser[0]['name'];
+      String name = datauser[0]['name'];
       // print(name);
       if (datauser[0]['role'] == 'admin') {
-        Navigator.push(context, MaterialPageRoute(builder: (contex)=> AdminSidebar()));
-      } 
-      else {
-        Navigator.push(context, MaterialPageRoute(builder: (contex)=> SideBar()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (contex) => AdminScreen()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (contex) => MembersScreen()));
       }
 
       setState(() {
         username = datauser[0]['email'];
       });
-    
     }
     return datauser;
   }
@@ -146,14 +144,17 @@ class _State extends State<LoginPage> {
                       // SignUp();
                       //signup screen
                       Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUp()));
+                          MaterialPageRoute(builder: (context) => SignUp()));
                     },
                   )
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
             ),
-          Text(msg,style: TextStyle(fontSize: 20.0,color: Colors.red),)
+            Text(
+              msg,
+              style: TextStyle(fontSize: 20.0, color: Colors.red),
+            )
           ],
         ),
       ),
