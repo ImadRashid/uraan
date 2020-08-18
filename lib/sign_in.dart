@@ -52,10 +52,11 @@ class _State extends State<LoginPage> {
       print("Login Succesful");
       // print(response.body);
       print(datauser);
+      //saving user name
       String name= datauser[0]['name'];
       // print(name);
       if (datauser[0]['role'] == 'admin') {
-        Navigator.push(context, MaterialPageRoute(builder: (contex)=> AdminScreen(name:name)));
+        Navigator.push(context, MaterialPageRoute(builder: (contex)=> AdminSidebar()));
       } 
       else {
         Navigator.push(context, MaterialPageRoute(builder: (contex)=> SideBar()));

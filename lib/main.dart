@@ -17,14 +17,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
 class SplashScreen extends StatefulWidget {
-
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen> {
   static const uraanColor = 0xff7ABA7B;
   @override
