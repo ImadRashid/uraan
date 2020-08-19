@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
+// import 'package:http/http.dart' as http;
+import 'package:uraan_app/model/datamodel.dart';
+// import 'dart:async';
+import 'package:http/http.dart' show Client;
 
 class AdminScreen extends StatefulWidget {
   @override
@@ -7,6 +12,37 @@ class AdminScreen extends StatefulWidget {
 }
 
 class _AdminScreenState extends State<AdminScreen> {
+  String _fbUrl = "https://graph.facebook.com/v8.0/me?fields=id%2Cname%2Cposts%7Bmessage%2Cpicture%7D&access_token=EAAzzbcIw7QgBAFqEVdsjPtTAPrVceCU2GC7T1AnuTFQkPVBDPhkGtxXHTpoCZAUb4vMvtLonpWyWTimLTYnzKK7jtEWpvgNEZBFj5T3hV02EjeN8d6Ege2GF5WVogM5T0UakRCZBJZBuguKDlB24nByqNqpfXapdaZCY6j3ayKzXaeSOYTyXK8Qzl7eH6C0gZD";
+  
+  List<FBData> fbData = [];
+  Client client = Client();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchDBData();
+  }
+
+  Future fetchDBData() async {
+    try {
+      final response = await client.get(_fbUrl);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print("Success");
+        Iterable l = json.decode(response.body)['posts']['data'];
+        setState(() {
+          fbData = l.map((i) => FBData.fromJson(i)).toList();
+        });
+      }
+      else{
+        print("Failed");
+      }
+    } catch (_) {
+      return await serverFailed;
+    }
+    return await serverFailed;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,18 +65,13 @@ class _AdminScreenState extends State<AdminScreen> {
             children: choices.map((Choice choice) {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ChoiceCard(choice: choice),
+                child: ChoiceCard(choice: choice, data: fbData),
               );
             }).toList(),
           ),
-
           floatingActionButton: new FloatingActionButton(
             backgroundColor: Colors.green,
             onPressed: () {
-
-
-
-
               showDialog(
                   barrierDismissible: false,
                   context: context,
@@ -50,8 +81,7 @@ class _AdminScreenState extends State<AdminScreen> {
                           borderRadius:
                               BorderRadius.circular(20.0)), //this right here
                       child: Container(
-                        height:350,
-
+                        height: 350,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -66,47 +96,45 @@ class _AdminScreenState extends State<AdminScreen> {
                                 ),
                               ),
                               TextField(
-                                decoration: InputDecoration(hintText: 'Name',
-
+                                decoration: InputDecoration(
+                                  hintText: 'Name',
                                   border: new OutlineInputBorder(
                                       borderSide:
-                                      new BorderSide(color: Colors.teal)),
+                                          new BorderSide(color: Colors.teal)),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.grey),
                                   ),
-
                                 ),
                               ),
                               TextField(
                                 decoration: InputDecoration(
                                     border: new OutlineInputBorder(
                                         borderSide:
-                                        new BorderSide(color: Colors.teal)),
-
+                                            new BorderSide(color: Colors.teal)),
                                     focusedBorder: OutlineInputBorder(
-
-                                      borderSide: BorderSide(color: Colors.grey),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
                                     ),
                                     hintText: 'Title'),
                               ),
                               Container(
-
-                                  child: TextField(
-                                    maxLines: 4,
-                                    autocorrect: false,
-                                    decoration: InputDecoration(
-                                      hintText: 'Discription',
-                                      filled: true,
-                                      //fillColor: Color(0xFFDBEDFF),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey),
-                                      ),
+                                child: TextField(
+                                  maxLines: 4,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
+                                    hintText: 'Discription',
+                                    filled: true,
+                                    //fillColor: Color(0xFFDBEDFF),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
                                     ),
                                   ),
-
+                                ),
                               ),
                               SizedBox(
                                 width: 320.0,
@@ -123,7 +151,6 @@ class _AdminScreenState extends State<AdminScreen> {
                         ),
                       ),
                     );
-
                   });
             },
             child: new Icon(
@@ -226,15 +253,43 @@ const List<Choice> choices = const <Choice>[
 ];
 
 class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice}) : super(key: key);
+  const ChoiceCard({Key key, this.choice, this.data}) : super(key: key);
 
   final Choice choice;
+  final List<FBData> data;
 
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyle = Theme.of(context).textTheme.headline;
+    if(choice.title=='Home'){
     return Card(
       color: Colors.white,
+      child: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (context, index) => _buildListItem(context, data[index]),
+      ),
     );
+    }
+    else{
+      return Card(
+        color: Colors.white,
+      );
+    }
   }
+}
+
+Widget _buildListItem(context, FBData data) {
+  var message = data.message == null ? "" : data.message;
+  var full_picture = data.full_Picture == null ? "" : data.full_Picture;
+
+  return Column(
+    children: <Widget>[
+      Text(message),
+      Image.network(
+        full_picture,
+        // width: 500,
+        // height: 500,
+      ),
+    ],
+  );
 }

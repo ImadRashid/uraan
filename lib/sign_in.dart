@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:uraan_app/admin.dart';
-import 'package:uraan_app/sidebar.dart';
+import 'package:uraan_app/member.dart';
 import 'package:uraan_app/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-import 'member.dart';
+// import '../member.dart';
 import 'package:characters/characters.dart';
 
 class LoginPage extends StatefulWidget {
@@ -52,6 +52,7 @@ class _State extends State<LoginPage> {
       print(datauser);
       //saving user name
       String name = datauser[0]['name'];
+
       // print(name);
       if (datauser[0]['role'] == 'admin') {
         Navigator.push(
