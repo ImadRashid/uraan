@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 // import 'package:http/http.dart' as http;
-import 'package:uraan_app/model/datamodel.dart';
+import './model/datamodel.dart';
 // import 'dart:async';
 import 'package:http/http.dart' show Client;
 
@@ -278,6 +278,7 @@ class ChoiceCard extends StatelessWidget {
   }
 }
 
+//////////////////////////////////////////////////////////////////////
 Widget _buildListItem(context, FBData data) {
   var message = data.message == null ? "" : data.message;
   var full_picture = data.full_Picture == null ? "" : data.full_Picture;
@@ -287,8 +288,8 @@ Widget _buildListItem(context, FBData data) {
       Text(message),
       Image.network(
         full_picture,
-        // width: 500,
-        // height: 500,
+        //  width: 500,
+        //  height: 500,
       ),
     ],
   );

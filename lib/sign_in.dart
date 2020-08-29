@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uraan_app/admin.dart';
-import 'package:uraan_app/member.dart';
-import 'package:uraan_app/sign_up.dart';
+import './admin.dart';
+import './member.dart';
+import './sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
